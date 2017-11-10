@@ -1,20 +1,21 @@
 <?php
-require_once('./utility_classes/sqlConnection.php');
+require_once('./utility_classes/sqlCommands.php');
 
 
 
 class Ingredient {
-    private $sqlConnection;
+    private $sqlCommands;
     
     private $var;
     
     function __construct() {
         $this->var = "wiwiwiwiiw";
-        //$this->sqlConnection = new sqlConnection();
+        $this->sqlCommands = new SqlCommands();
     }
     
     public function getTest() {
-        return $this->var;
+        $stmt = $this->sqlCommands->executeNoParamQuery("hej");
+        return $this->sqlCommands->getDataObject($stmt);
     }
     
 }

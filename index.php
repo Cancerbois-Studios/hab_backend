@@ -15,33 +15,10 @@ $request = $_SERVER['REQUEST_URI'];
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: Content-Type");
 header("Access-Control-Allow-Methods: GET");
-header('Content-Type: application/json');
-http_response_code(200);
+//header('Content-Type: application/json');
 
 Index::indexIt();
 
-$_data = json_decode(file_get_contents("php://input"));
-
-$returnData = array("method"=>$method,"contentType"=>$contentType,"data"=>$_data);
-exit(json_encode($returnData));
-
-if(isset($_data->weight) && isset($_data->height) && isset($_data->measurementSystem)) {
-    if($_data->height < 1) {
-        exit("less than 1");
-    }
-    $multiplier = 1;
-    if($_data->measurementSystem == "imperial") {
-        $multiplier = 703;
-    }
-    
-    $result = $_data->weight * $multiplier / pow($_data->height,2);
-    
-    $return = array();
-    $return["bmi"] = $result;
-    exit(json_encode($return));
-}
-
-exit("not success!");
 
 class Index {
     public static $indexInstance = null;
