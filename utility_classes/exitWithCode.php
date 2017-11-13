@@ -1,7 +1,11 @@
 <?php
 
 
-class ExitWithCodeClass {
+class ExitWithCode {
+    
+    private function __construct() {
+        
+    }
     
     public static function exitWithCode($httpResponseCode, $reponseText = null) {
         http_response_code($httpResponseCode);

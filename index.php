@@ -1,21 +1,15 @@
 <?php
-require_once("utility_classes/exitWithCode.php");
+require_once(__DIR__ . '/utility_classes/autoloader.php');
 
-require_once("core_classes/ingredient.php");
-
-
+/*
 $headers = getallheaders();
 $method = $_SERVER['REQUEST_METHOD'];
 $contentType = $_SERVER['CONTENT_TYPE'];
 
-$request = $_SERVER['REQUEST_URI'];
+$request = $_SERVER['REQUEST_URI'];*/
 
 
 
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Headers: Content-Type");
-header("Access-Control-Allow-Methods: GET");
-//header('Content-Type: application/json');
 
 Index::indexIt();
 
@@ -31,8 +25,11 @@ class Index {
     
     public static function indexIt() {
         $indexClass = Index::getInstance();
+        $indexClass->setHeaders();
         
         $indexClass->method = $_SERVER['REQUEST_METHOD'];
+        //print_r(file_get_contents("php://input"));
+        //exit();
         $indexClass->body = (object)json_decode(file_get_contents("php://input"));
         
         $indexClass->execute();
@@ -41,16 +38,23 @@ class Index {
     public $method;
     public $body;
     
+    private function setHeaders() {
+        header("Access-Control-Allow-Origin: *");
+        header("Access-Control-Allow-Headers: Content-Type");
+        header("Access-Control-Allow-Methods: GET");
+        //header('Content-Type: application/json');
+    }
+    
     public function execute() {
         if(!isset($this->body->class) || !isset($this->body->method)) {
-            ExitWithCodeClass::exitWithCode(400, "Error: class or method not set!");
+            ExitWithCode::exitWithCode(400, "Error: class or method not set!");
         }
         
         $class = new $this->body->class();
         $method = $this->body->method;
-        ExitWithCodeClass::exitWithCode(200,$class->$method());
+        ExitWithCode::exitWithCode(200,$class->$method());
         
-        ExitWithCodeClass::exitWithCode(400, "Made it too far in the execute method!");
+        ExitWithCode::exitWithCode(400, "Made it too far in the execute method!");
     }
 }
 
