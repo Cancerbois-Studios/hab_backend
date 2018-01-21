@@ -42,17 +42,31 @@ class Index {
         header("Access-Control-Allow-Origin: *");
         header("Access-Control-Allow-Headers: Content-Type");
         header("Access-Control-Allow-Methods: GET");
-        //header('Content-Type: application/json');
+        header('Content-Type: application/json');
     }
     
     public function execute() {
+        if($this->method == "OPTIONS") {
+            exit;
+        }
+        
         if(!isset($this->body->class) || !isset($this->body->method)) {
             ExitWithCode::exitWithCode(400, "Error: class or method not set!");
         }
         
         $class = new $this->body->class();
         $method = $this->body->method;
-        ExitWithCode::exitWithCode(200,$class->$method());
+        $input = (object)array();
+        foreach($this->body AS $key => $value) {
+            if($key == "class" || $key == "method") { continue; }
+            $input->$key = $value;
+        }
+        $retval = $class->$method($input);
+        if(!is_array($retval) && !is_object($retval)) {
+            $retval = array($retval);
+        }
+        
+        ExitWithCode::exitWithCode(200,$retval);
         
         ExitWithCode::exitWithCode(400, "Made it too far in the execute method!");
     }
