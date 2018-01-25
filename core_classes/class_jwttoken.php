@@ -3,12 +3,13 @@
 require_once(realpath(__DIR__ . '/../index.php'));
 
 class jwtToken {
+    private $headers;
     
     private $jwtSecret = "top_secret";
     private $algorithm = "sha256";
     
     function __construct() {
-        
+        $this->headers = new headers();
     }
     
     public function getJwtToken($_input) {
@@ -17,6 +18,7 @@ class jwtToken {
             "type"=>"jwt"
         );
         $payload = array(
+            "username" => $_input->username,
             "expire"=>time() + (60*60*24*7)
         );
         
@@ -31,7 +33,9 @@ class jwtToken {
         return $tokenPayload;
     }
     
-    
+    public function validateToken() {
+        $token = $this->headers->getAuthToken();
+    }
     
     
     
