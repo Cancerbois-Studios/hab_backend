@@ -56,7 +56,8 @@ class SqlCommands {
             return $stmt;
         }catch(Exception $e){
             Logger::LogException($e);
-            ExitWithCode::exitWithCode(500, $e->getMessage());            
+            throw $e;
+            //ExitWithCode::exitWithCode(500, $e->getMessage());            
         }
     }
     
@@ -72,7 +73,7 @@ class SqlCommands {
             return $result;
         }catch(Exception $e){   
             Logger::LogException($e); 
-            ExitWithCode::exitWithCode(500, $e->getMessage());            
+            //ExitWithCode::exitWithCode(500, $e->getMessage());            
         }
     }
     

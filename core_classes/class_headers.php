@@ -8,10 +8,12 @@ class headers {
     }
     
     private function getHeaders() {
-        $this->headers = (object)getallheaders();
+        //$this->headers = (object)getallheaders();
     }
     
     public function getAuthToken() {
+        print_r(getallheaders());
+        exit;
         if(isset($this->headers->authorization)) {
             return $this->headers->authorization;
         } else{

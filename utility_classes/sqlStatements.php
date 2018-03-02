@@ -1,4 +1,5 @@
 <?php
+require_once(realpath(__DIR__ . '/../index.php'));
 
 
 class SqlStatements {
@@ -6,6 +7,10 @@ class SqlStatements {
     public function getSql($sqlName) {
         return $this->$sqlName;
     }
+    
+    private $getUsername = "SELECT id FROM hab_fw_user WHERE username = ?";
+    private $userRegistration = "INSERT INTO hab_fw_user (username, password) VALUES (?, ?)";
+    private $userLogin = "SELECT id FROM hab_fw_user WHERE username = ? AND password = ?";
     
     private $createLogEntry = "INSERT INTO hab_fw_log_entry(user_id,log_level,message) VALUES (?,?,?)";
     
