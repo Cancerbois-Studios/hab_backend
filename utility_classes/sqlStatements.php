@@ -23,6 +23,8 @@ class SqlStatements {
     private $updateIngredient = "UPDATE hab_cb_ingredient SET name=?, type=? WHERE id=?";
     private $deleteIngredient = "DELETE FROM hab_cb_ingredient WHERE id=?";
     
+    private $getCnsUserStatistics = "SELECT correct_count, incorrect_count FROM hab_cns_statistics WHERE user_id=?";
+    private $setCnsUserStatistics = "INSERT INTO hab_cns_statistics(user_id, correct_count, incorrect_count) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE correct_count = correct_count + ?, incorrect_count = incorrect_count + ?;";
     
     
     
