@@ -96,6 +96,23 @@ class SqlCommands {
         }
     }
     
+    public function executeTextQuery($sql,$con = null){
+      
+        
+        try{
+            
+            if($con == null){
+                $con = $this->con;    
+            }
+            $result = $con->query($sql);
+            return $result;
+        }catch(Exception $e){
+            Logger::LogException($e);
+            throw $e;
+            //ExitWithCode::exitWithCode(500, $e->getMessage());            
+        }
+    }
+    
     public function getDataAssoc($res){
          
         return $res->fetchAll(PDO::FETCH_ASSOC);
